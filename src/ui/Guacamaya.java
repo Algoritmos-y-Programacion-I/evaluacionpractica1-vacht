@@ -9,7 +9,6 @@ public class Guacamaya {
     public static int[] unidades;
 
     public static void main(String[] args) {
-
         inicializarGlobales();
         menu();
     }
@@ -17,21 +16,18 @@ public class Guacamaya {
     /**
      * Descripcion: Este metodo se encarga de iniciar las variables globales
      * pre: El Scanner reader debe estar declarado
-     * pos: l Scanner reader queda inicializado
-    */
+     * pos: El Scanner reader queda inicializado
+     */
     public static void inicializarGlobales() {
-
         reader = new Scanner(System.in);
-
     }
 
     /**
      * Descripcion: Este metodo se encarga de desplegar el menu al usuario y mostrar los mensajes de resultado para cada funcionalidad
      * pre: El Scanner reader debe estar inicializado
      * pre: El arreglo precios debe estar inicializado
-    */
+     */
     public static void menu() {
-
         System.out.println("Bienvenido a Guacamaya!");
 
         establecerCantidadVendida();
@@ -39,7 +35,6 @@ public class Guacamaya {
         boolean salir = false;
 
         do {
-
             System.out.println("\nMenu Principal:");
             System.out.println("1. Solicitar precios ($) y cantidades de cada referencia de producto vendida en el dia");
             System.out.println("2. Calcular la cantidad total de unidades vendidas en el dia");
@@ -73,13 +68,10 @@ public class Guacamaya {
                     salir = true;
                     reader.close();
                     break;
-
                 default:
                     break;
             }
-
         } while (!salir);
-
     }
 
     /**
@@ -90,42 +82,83 @@ public class Guacamaya {
      * pos: Los arreglos precios y unidades quedan inicializados
      */
     public static void establecerCantidadVendida() {
-
         System.out.println("\nDigite el numero de referencias de producto diferentes vendidas en el dia ");
         int referencias = reader.nextInt();
 
         precios = new double[referencias];
         unidades = new int[referencias];
-
     }
 
-    public static void solicitarDatos(){
-
-     
+    /**
+     * Descripcion: Este metodo solicita al usuario el precio y la cantidad de cada referencia de producto vendida
+     * pre: Los arreglos precios y unidades deben estar inicializados
+     * pos: Los arreglos precios y unidades quedan llenos con los datos ingresados por el usuario
+     */
+    public static void solicitarDatos() {
+        for (int i = 0; i < precios.length; i++) {
+            System.out.println("Ingrese el precio de la referencia " + (i + 1) + ":");
+            precios[i] = reader.nextDouble();
+            System.out.println("Ingrese la cantidad vendida de la referencia " + (i + 1) + ":");
+            unidades[i] = reader.nextInt();
+        }
     }
 
-    public static int calcularTotalUnidadesVendidas(){
-
-        return 0;
-
+    /**
+     * Descripcion: Este metodo calcula la cantidad total de unidades vendidas durante el día
+     * pre: El arreglo unidades debe estar inicializado y lleno
+     * pos: Retorna la suma total de unidades vendidas
+     * @return int - La cantidad total de unidades vendidas
+     */
+    public static int calcularTotalUnidadesVendidas() {
+        int total = 0;
+        for (int cantidad : unidades) {
+            total += cantidad;
+        }
+        return total;
     }
 
-    public static double calcularPrecioPromedio(){
-
-        return 0;
-
+    /**
+     * Descripcion: Este metodo calcula el precio promedio de las referencias de producto vendidas
+     * pre: El arreglo precios debe estar inicializado y lleno
+     * pos: Retorna el precio promedio de las referencias
+     * @return double - El precio promedio de las referencias de producto
+     */
+    public static double calcularPrecioPromedio() {
+        double suma = 0;
+        for (double precio : precios) {
+            suma += precio;
+        }
+        return suma / precios.length;
     }
 
-    public static double calcularVentasTotales(){
-
-        return 0;
-
+    /**
+     * Descripcion: Este metodo calcula las ventas totales (dinero recaudado) durante el día
+     * pre: Los arreglos precios y unidades deben estar inicializados y llenos
+     * pos: Retorna el total de ventas en dinero
+     * @return double - El total de ventas en dinero
+     */
+    public static double calcularVentasTotales() {
+        double total = 0;
+        for (int i = 0; i < precios.length; i++) {
+            total += precios[i] * unidades[i];
+        }
+        return total;
     }
 
-    public static int consultarReferenciasSobreLimite(double limite){
-
-        return 0;
-
+    /**
+     * Descripcion: Este metodo consulta el número de referencias de productos que en el día hayan superado un límite mínimo de ventas
+     * pre: Los arreglos precios y unidades deben estar inicializados y llenos
+     * pos: Retorna el número de referencias que superaron el límite
+     * @param limite - El límite mínimo de ventas a considerar
+     * @return int - El número de referencias que superaron el límite
+     */
+    public static int consultarReferenciasSobreLimite(double limite) {
+        int count = 0;
+        for (int i = 0; i < precios.length; i++) {
+            if (precios[i] * unidades[i] > limite) {
+                count++;
+            }
+        }
+        return count;
     }
-
 }
